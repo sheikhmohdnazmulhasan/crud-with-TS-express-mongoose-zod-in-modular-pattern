@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { ProductRoute } from './app/modules/product/product.route';
+import { OrderRoute } from './app/modules/orders/order.route';
 
 const app: Application = express();
 
@@ -15,6 +16,7 @@ app.get('/', (req: Request, res: Response) => {
 
 // application route;
 app.use('/api', ProductRoute);
+app.use('/api', OrderRoute);
 
 // invalid endpoint checker;
 app.all('*', (req: Request, res: Response) => {
