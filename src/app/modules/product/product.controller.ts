@@ -119,7 +119,36 @@ async function updateProductBySearchParams(req: Request, res: Response) {
             success: false,
             message: "internal server error",
         });
+    };
+};
+
+async function deleteProductBySearchParams(req: Request, res: Response) {
+    const productId = req.params.productId;
+
+    try {
+        const result = await ProductServices.deleteProductBySearchParamsFromDb(productId);
+
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: 'Product deleted successfully!',
+                data: null
+            });
+
+        } else {
+            res.status(500).json({
+                success: false,
+                message: "internal server error",
+            });
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "internal server error",
+        });
     }
+
 }
 
-export const ProductController = { createProduct, getProduct, getProductBySearchParams, updateProductBySearchParams };
+export const ProductController = { createProduct, getProduct, getProductBySearchParams, updateProductBySearchParams, deleteProductBySearchParams };

@@ -42,9 +42,21 @@ async function updateProductBySearchParamsFromDb(productId: string, updatedData:
 
     } catch (error) {
         console.log(error);
-    }
+    };
 
+};
+
+async function deleteProductBySearchParamsFromDb(productId: string) {
+
+    try {
+        const result = await ProductModel.findByIdAndDelete(productId);
+        if (result) return result;
+
+    } catch (error) {
+        console.log(error);
+
+    }
 }
 
 
-export const ProductServices = { createProductIntoDb, getProductsFromDb, getProductBySearchParamsFromDb, updateProductBySearchParamsFromDb };
+export const ProductServices = { createProductIntoDb, getProductsFromDb, getProductBySearchParamsFromDb, updateProductBySearchParamsFromDb , deleteProductBySearchParamsFromDb};
