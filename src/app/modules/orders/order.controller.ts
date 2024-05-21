@@ -33,9 +33,10 @@ async function createOrder(req: Request, res: Response) {
 };
 
 async function getAllOrders(req: Request, res: Response) {
+    const email = req.query.email;
 
     try {
-        const result = await OrderServices.getAllOrdersFromDb();
+        const result = await OrderServices.getAllOrdersFromDb(email as string | undefined);
 
         if (result) {
             res.status(200).json({

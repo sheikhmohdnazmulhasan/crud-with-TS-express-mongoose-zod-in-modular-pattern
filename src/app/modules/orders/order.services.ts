@@ -40,11 +40,18 @@ async function createOrderIntoDb(order: Order) {
     }
 };
 
-async function getAllOrdersFromDb() {
+async function getAllOrdersFromDb(email: string | undefined) {
 
     try {
-        const result = await OrderModel.find();
-        if (result) return result;
+
+        if (email) {
+            const result = await OrderModel.find({ email });
+            if (result) return result;
+
+        } else {
+            const result = await OrderModel.find();
+            if (result) return result;
+        }
 
     } catch (error) {
         console.log(error);
