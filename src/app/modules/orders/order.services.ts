@@ -35,12 +35,20 @@ async function createOrderIntoDb(order: Order) {
             }
         }
 
-
-
-
     } catch (error) {
         console.log(error);
     }
 };
 
-export const OrderServices = { createOrderIntoDb } 
+async function getAllOrdersFromDb() {
+
+    try {
+        const result = await OrderModel.find();
+        if (result) return result;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const OrderServices = { createOrderIntoDb, getAllOrdersFromDb } 

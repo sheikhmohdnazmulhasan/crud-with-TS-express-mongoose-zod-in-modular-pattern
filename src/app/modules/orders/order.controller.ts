@@ -32,4 +32,32 @@ async function createOrder(req: Request, res: Response) {
 
 };
 
-export const OrderControllers = { createOrder }
+async function getAllOrders(req: Request, res: Response) {
+
+    try {
+        const result = await OrderServices.getAllOrdersFromDb();
+
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: 'Orders fetched successfully',
+                data: result,
+            });
+
+        } else {
+            res.status(500).json({
+                success: false,
+                message: "internal server error",
+            });
+        }
+
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'Something wrong!',
+            error: error
+        });
+    }
+}
+
+export const OrderControllers = { createOrder, getAllOrders }
