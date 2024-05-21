@@ -91,6 +91,35 @@ async function getProductBySearchParams(req: Request, res: Response) {
         });
     }
 
+};
+
+async function updateProductBySearchParams(req: Request, res: Response) {
+    const productId = req.params.productId;
+    const updatedData = req.body;
+
+    try {
+        const result = await ProductServices.updateProductBySearchParamsFromDb(productId, updatedData);
+
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: "Product updated successfully!",
+                data: result
+            });
+
+        } else {
+            res.status(500).json({
+                success: false,
+                message: "internal server error",
+            });
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "internal server error",
+        });
+    }
 }
 
-export const ProductController = { createProduct, getProduct, getProductBySearchParams };
+export const ProductController = { createProduct, getProduct, getProductBySearchParams, updateProductBySearchParams };

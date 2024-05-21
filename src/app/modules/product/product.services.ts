@@ -32,9 +32,19 @@ async function getProductBySearchParamsFromDb(productId: string) {
     } catch (error) {
         console.log(error);
     }
+};
+
+async function updateProductBySearchParamsFromDb(productId: string, updatedData: Product) {
+
+    try {
+        const result = await ProductModel.findByIdAndUpdate(productId, updatedData);
+        if (result) return result;
+
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 
-
-
-export const ProductServices = { createProductIntoDb, getProductsFromDb, getProductBySearchParamsFromDb };
+export const ProductServices = { createProductIntoDb, getProductsFromDb, getProductBySearchParamsFromDb, updateProductBySearchParamsFromDb };
