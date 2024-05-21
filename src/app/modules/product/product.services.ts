@@ -9,7 +9,20 @@ async function createProductIntoDb(product: Product) {
 
     } catch (error) {
         console.log(error);
+    };
+};
+
+async function getProductsFromDb() {
+
+    try {
+        const result = await ProductModel.find();
+        if (result) return result
+
+    } catch (error) {
+        console.log(error);
     }
+
 }
 
-export const ProductServices = { createProductIntoDb };
+
+export const ProductServices = { createProductIntoDb, getProductsFromDb };
