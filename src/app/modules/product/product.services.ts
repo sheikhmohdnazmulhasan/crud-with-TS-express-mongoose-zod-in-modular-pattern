@@ -12,11 +12,24 @@ async function createProductIntoDb(product: Product) {
     };
 };
 
-async function getProductsFromDb() {
+async function getProductsFromDb(searchTerm: string | undefined) {
 
     try {
-        const result = await ProductModel.find();
-        if (result) return result
+
+        if (searchTerm) {
+            const result = await ProductModel.find();
+
+            const filteredData = result.filter(i => {
+                const words = i.name.split(' ');
+                return words.some(word => word.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
+            });
+
+            if (filteredData) return filteredData
+
+        } else {
+            const result = await ProductModel.find();
+            if (result) return result
+        }
 
     } catch (error) {
         console.log(error);
@@ -59,4 +72,4 @@ async function deleteProductBySearchParamsFromDb(productId: string) {
 }
 
 
-export const ProductServices = { createProductIntoDb, getProductsFromDb, getProductBySearchParamsFromDb, updateProductBySearchParamsFromDb , deleteProductBySearchParamsFromDb};
+export const ProductServices = { createProductIntoDb, getProductsFromDb, getProductBySearchParamsFromDb, updateProductBySearchParamsFromDb, deleteProductBySearchParamsFromDb };

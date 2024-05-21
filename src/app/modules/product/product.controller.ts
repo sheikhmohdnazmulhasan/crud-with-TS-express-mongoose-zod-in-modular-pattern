@@ -32,9 +32,10 @@ async function createProduct(req: Request, res: Response) {
 };
 
 async function getProduct(req: Request, res: Response) {
+    const searchTerm = req.query.searchTerm;
 
     try {
-        const result = await ProductServices.getProductsFromDb();
+        const result = await ProductServices.getProductsFromDb(searchTerm as string | undefined);
 
         if (result) {
             res.status(200).json({
