@@ -11,7 +11,7 @@ async function createProduct(req: Request, res: Response) {
             res.status(200).json({
                 success: true,
                 message: 'product created successfully!',
-                data: data,
+                data: result,
             });
 
         } else {

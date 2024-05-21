@@ -8,10 +8,10 @@ async function createOrder(req: Request, res: Response) {
         const result = await OrderServices.createOrderIntoDb(data);
 
         if (result) {
-            res.status(200).json({
-                success: true,
-                message: 'Order created successfully!',
-                data: data,
+            res.status(result.status).json({
+                success: result?.success,
+                message: result?.message,
+                data: result?.data,
             });
 
         } else {
