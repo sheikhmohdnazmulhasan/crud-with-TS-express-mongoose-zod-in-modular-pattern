@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Product } from "./product.interface";
 
 
 const variantSchema = new mongoose.Schema({
@@ -11,7 +12,7 @@ const inventorySchema = new mongoose.Schema({
     inStock: { type: Boolean, required: true }
 });
 
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema<Product>({
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
