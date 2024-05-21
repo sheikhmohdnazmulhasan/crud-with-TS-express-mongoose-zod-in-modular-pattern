@@ -21,8 +21,20 @@ async function getProductsFromDb() {
     } catch (error) {
         console.log(error);
     }
+};
 
+async function getProductBySearchParamsFromDb(productId: string) {
+
+    try {
+        const result = await ProductModel.findById(productId);
+        if (result) return result;
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
-export const ProductServices = { createProductIntoDb, getProductsFromDb };
+
+
+export const ProductServices = { createProductIntoDb, getProductsFromDb, getProductBySearchParamsFromDb };
