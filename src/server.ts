@@ -11,7 +11,7 @@ import 'dotenv/config'
             console.log('Pinged your deployment. You successfully connected to MongoDB!');
 
             app.listen(5000, () => {
-                console.log(`project-1 listening on port ${5000}`);
+                console.log(`Assignment-2 listening on port ${5000}`);
             });
 
         } catch (error) {
