@@ -26,23 +26,21 @@ async function createProduct(req: Request, res: Response) {
 
     } catch (error) {
 
-        // res.status(400).json({
-        //     success: false,
-        //     message: 'Something wrong!',
-        //     error: error
-        // });
-
         if (error instanceof z.ZodError) {
-
-            // console.error("Validation failed:", error.errors[0].message);
-
             res.status(400).json({
                 success: false,
                 message: 'validation failed.',
                 error: error.errors
-            })
-        }
-    }
+            });
+
+        } else {
+            res.status(400).json({
+                success: false,
+                message: 'Something wrong!',
+                error: error
+            });
+        };
+    };
 };
 
 async function getProduct(req: Request, res: Response) {
@@ -113,7 +111,8 @@ async function updateProductBySearchParams(req: Request, res: Response) {
     const updatedData = req.body;
 
     try {
-        const result = await ProductServices.updateProductBySearchParamsFromDb(productId, updatedData);
+        const zodParsedData = ProductValidationSchema.parse(updatedData);
+        const result = await ProductServices.updateProductBySearchParamsFromDb(productId, zodParsedData);
 
         if (result) {
             res.status(200).json({
@@ -130,10 +129,22 @@ async function updateProductBySearchParams(req: Request, res: Response) {
         }
 
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "internal server error",
-        });
+
+        if (error instanceof z.ZodError) {
+            res.status(400).json({
+                success: false,
+                message: 'validation failed.',
+                error: error.errors,
+            });
+
+        } else {
+
+            res.status(400).json({
+                success: false,
+                message: 'Something wrong!',
+                error: error,
+            });
+        };
     };
 };
 
