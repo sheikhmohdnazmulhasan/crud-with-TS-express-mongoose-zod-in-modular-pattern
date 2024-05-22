@@ -56,15 +56,15 @@ This repository contains a CRUD (Create, Read, Update, Delete) server built with
     │   ├── config
     │   │   └── database.ts          # Database connection setup
     │   ├── controllers
-    │   │   └── userController.ts    # Controller for user-related operations
+    │   │   └── Controller.ts    # Controller for user-related operations
     │   ├── models
-    │   │   └── userModel.ts         # Mongoose schema and model for User
+    │   │   └── Model.ts         # Mongoose schema and model for User
     │   ├── routes
-    │   │   └── userRoutes.ts        # Express routes for user endpoints
+    │   │   └── Routes.ts        # Express routes for user endpoints
     │   ├── schemas
-    │   │   └── userSchema.ts        # Zod schemas for user validation
+    │   │   └── Schema.ts        # Zod schemas for user validation
     │   ├── services
-    │   │   └── userService.ts       # Business logic for user operations
+    │   │   └── Service.ts       # Business logic for user operations
     │   ├── utils
     │   │   └── handleError.ts       # Utility for error handling
     │   ├── app.ts                   # Express app setup
