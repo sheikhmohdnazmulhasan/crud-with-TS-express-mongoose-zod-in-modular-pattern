@@ -1,10 +1,15 @@
 import { Request, Response } from "express";
 import { OrderServices } from "./order.services";
+import OrderValidationSchema from "./order.validation";
+import { z } from "zod";
 
 async function createOrder(req: Request, res: Response) {
     const data = req.body;
 
     try {
+        const zodParsedData = OrderValidationSchema.parse(data);
+        console.log(zodParsedData);
+
         const result = await OrderServices.createOrderIntoDb(data);
 
         if (result) {
@@ -23,11 +28,20 @@ async function createOrder(req: Request, res: Response) {
 
     } catch (error) {
 
-        res.status(400).json({
-            success: false,
-            message: 'Something wrong!',
-            error: error
-        });
+        if (error instanceof z.ZodError) {
+            res.status(400).json({
+                success: false,
+                message: 'validation failed.',
+                error: error.errors
+            });
+
+        } else {
+            res.status(400).json({
+                success: false,
+                message: 'Something wrong!',
+                error: error
+            });
+        };
     }
 
 };

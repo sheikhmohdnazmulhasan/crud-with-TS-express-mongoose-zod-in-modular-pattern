@@ -33,6 +33,8 @@ async function createOrderIntoDb(order: Order) {
                 }
 
             }
+        } else {
+            return { status: 400, success: false, message: `Unable to place order. Invalid Product ID: ${productId}`, data: null }
         }
 
     } catch (error) {

@@ -27,11 +27,11 @@ async function createProduct(req: Request, res: Response) {
     } catch (error) {
 
         if (error instanceof z.ZodError) {
-            res.status(400).json({
-                success: false,
-                message: 'validation failed.',
-                error: error.errors
-            });
+                res.status(400).json({
+                    success: false,
+                    message: 'validation failed.',
+                    error: error.errors
+                });
 
         } else {
             res.status(400).json({
