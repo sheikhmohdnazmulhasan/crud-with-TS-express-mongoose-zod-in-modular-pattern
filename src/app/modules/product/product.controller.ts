@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import { ProductServices } from "./product.services";
+import ProductValidationSchema from "./product.validation";
+import { z } from "zod";
 
 async function createProduct(req: Request, res: Response) {
     const data = req.body
 
     try {
-        const result = await ProductServices.createProductIntoDb(data);
+        const zodParsedData = ProductValidationSchema.parse(data);
+        const result = await ProductServices.createProductIntoDb(zodParsedData);
 
         if (result) {
             res.status(200).json({
@@ -23,11 +26,22 @@ async function createProduct(req: Request, res: Response) {
 
     } catch (error) {
 
-        res.status(400).json({
-            success: false,
-            message: 'Something wrong!',
-            error: error
-        });
+        // res.status(400).json({
+        //     success: false,
+        //     message: 'Something wrong!',
+        //     error: error
+        // });
+
+        if (error instanceof z.ZodError) {
+
+            // console.error("Validation failed:", error.errors[0].message);
+
+            res.status(400).json({
+                success: false,
+                message: 'validation failed.',
+                error: error.errors
+            })
+        }
     }
 };
 
