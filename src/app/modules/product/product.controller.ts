@@ -27,11 +27,11 @@ async function createProduct(req: Request, res: Response) {
     } catch (error) {
 
         if (error instanceof z.ZodError) {
-                res.status(400).json({
-                    success: false,
-                    message: 'validation failed.',
-                    error: error.errors
-                });
+            res.status(400).json({
+                success: false,
+                message: 'validation failed.',
+                error: error.errors
+            });
 
         } else {
             res.status(400).json({
@@ -49,7 +49,14 @@ async function getProduct(req: Request, res: Response) {
     try {
         const result = await ProductServices.getProductsFromDb(searchTerm as string | undefined);
 
-        if (result) {
+        if (!result?.length) {
+            res.status(400).json({
+                success: false,
+                message: 'Your search did not match any data stored in our database!',
+                data: result
+            });
+
+        } else if (result) {
             res.status(200).json({
                 success: true,
                 message: 'Products fetched successfully!',
@@ -90,7 +97,8 @@ async function getProductBySearchParams(req: Request, res: Response) {
         } else {
             res.status(500).json({
                 success: false,
-                message: "internal server error",
+                message: `Invalid Product ID: ${productId}`,
+                data: null,
             });
         }
 
@@ -124,7 +132,8 @@ async function updateProductBySearchParams(req: Request, res: Response) {
         } else {
             res.status(500).json({
                 success: false,
-                message: "internal server error",
+                message: `Unable to Update Product Info. Invalid Product ID: ${productId}`,
+                data: null,
             });
         }
 
@@ -164,7 +173,8 @@ async function deleteProductBySearchParams(req: Request, res: Response) {
         } else {
             res.status(500).json({
                 success: false,
-                message: "internal server error",
+                message: `Unable to Delete Product. Invalid Product ID: ${productId}`,
+                data: null,
             });
         }
 
